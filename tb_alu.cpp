@@ -68,12 +68,32 @@ int main(int argc, char** argv, char** env) {
 				if(dut->clk == 1){
 						dut->in_valid = 0;
 						posedge_cnt ++;
-						set_rnd_out_valid(dut,sim_time);
-						check_out_valid(dut,sim_time);
-						if(posedge_cnt == 7){
-								if(dut->out_valid !=1)
-									std::cout << "ERROR" << std::endl;
+						switch (posedge_cnt){
+								case 10:
+									dut->in_valid = 1;
+									dut->a_in = 5;
+									dut->b_in = 3;
+									dut->op_in = Valu___024unit::operation_t::add;
+									break;
+								case 12:
+									if(dut->out !=8)
+										std::cout << "Addition failed @" << sim_time <<std::endl;
+									break;
+								case 20:
+									dut->in_valid = 1;
+									dut->a_in = 5;
+									dut->b_in = 3;
+									dut->op_in = Valu___024unit::operation_t::sub;
+									break;
+								case 22:
+									if(dut->out !=2)
+										std::cout << "Subtraction failed @" << sim_time << std::endl;
 							}
+						check_out_valid(dut,sim_time);
+//						if(posedge_cnt == 7){
+//								if(dut->out_valid !=1)
+//									std::cout << "ERROR" << std::endl;
+//							}
 						}
 					
        	m_trace->dump(sim_time);
